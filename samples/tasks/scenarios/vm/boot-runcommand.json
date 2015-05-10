@@ -1,0 +1,40 @@
+{
+    "VMTasks2.boot_runcommand": [
+        {
+            "args": {
+                "flavor": {
+                    "name": "m1.medium"
+                },
+                "image": {
+                    "name": "Test_Image_1"
+                },
+                "force_delete": false,
+                "script": "/home/rally/samples/tasks/support/instance_load.sh",
+                "interpreter": "/bin/sh",
+                "username": "ubuntu"
+            },
+            "runner": {
+                "type": "constant",
+                "times": 2,
+                "concurrency": 2
+            },
+            "context": {
+                "users": {
+                    "tenants": 1,
+                    "users_per_tenant": 1
+                },
+                "network": {
+                },
+                "quotas": {
+                    "neutron": {
+                        "network": 10,
+                        "subnet": 10,
+                        "port": 10,
+                        "router": 10,
+                        "floatingip": 10
+    }
+}
+            }
+        }
+    ]
+}
