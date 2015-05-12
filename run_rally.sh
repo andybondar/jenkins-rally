@@ -109,15 +109,11 @@ ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP
 ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} mkdir -p .rally/plugins
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null plugins/* ubuntu@${vm_ip}:~/.rally/plugins/
 
-# Run Rally task(s)
+# Run Rally task(s) and analyze test results
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/run_rally_tasks.sh ubuntu@${vm_ip}:run_rally_tasks.sh
 ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} ./run_rally_tasks.sh
 
-# Analyze test results
-
 # Download test reports
-
-# Save logs
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip}:logs/* logs/
 
 # Clear env
