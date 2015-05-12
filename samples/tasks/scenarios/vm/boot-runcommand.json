@@ -9,7 +9,7 @@
                     "name": "Test_Image_1"
                 },
                 "force_delete": false,
-                "script": "/home/rally/samples/tasks/support/instance_load.sh",
+                "script": "/home/ubuntu/samples/tasks/support/instance_load.sh",
                 "interpreter": "/bin/sh",
                 "username": "ubuntu"
             },
