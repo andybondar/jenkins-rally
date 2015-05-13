@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+actions=(nova.associate_floating_ip nova.boot_server total vm.attach_floating_ip vm.run_command_over_ssh vm.wait_for_ping vm.wait_for_ssh)
+
 ###
 c=0
 ###
@@ -22,15 +24,13 @@ while [[ $n -le 3 ]]; do
     # Create 'json' report if test unsuccessfull
     status=`cat logs/boot-runcommand-${n}.log | grep finished | wc -l`
     if [ "$status" -eq 0 ]; then
-	echo "FAILURE, please refer to logs/boot-runcommand-${n}.log"
-	exit 1
+	echo "FAILURE, please refer to logs/boot-runcommand-${n}.log" >> logs/failure.log
+	#exit 1
     else
 	task_id=`cat logs/boot-runcommand-${n}.log | grep finished | awk '{print $2}' | awk -F":" '{print $1}'`
 
 	# Save test report in html format
 	rally task report ${task_id} --out logs/boot-runcommand-${n}.html
-
-	actions=(nova.associate_floating_ip nova.boot_server total vm.attach_floating_ip vm.run_command_over_ssh vm.wait_for_ping vm.wait_for_ssh)
 
 	for i in ${actions[@]}; do
 	    success=`cat logs/boot-runcommand-${n}.log | grep $i | awk '{print $16}'`
@@ -51,6 +51,6 @@ done
 if [ "$c" -eq 0 ]; then
     echo "=== Congrats! All actions are successful"
 else
-    echo "=== $c action(s) are not 100% successful, MOS is unstable"
-    exit 1
+    echo "=== $c action(s) are not 100% successful, MOS is unstable" >> logs/failure.log
+    #exit 1
 fi

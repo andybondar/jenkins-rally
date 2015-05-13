@@ -34,8 +34,6 @@ fuel_master_pass=`ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostI
 # SSH to FM
 fm_ssh="sshpass -p$fuel_master_pass ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no $fuel_master_user@$FUEL_IP"
 
-#$fm_ssh "uname -a"
-
 #Get CTRL IP
 ctrl_ip=`$fm_ssh "fuel nodes" | grep controller | awk '{print $9}' | head -1`
 echo $ctrl_ip
@@ -121,3 +119,10 @@ scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHos
 
 # Clear env
 $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh clear"
+
+# Check logs
+
+if [ -f logs/failure.log ]; then
+    echo "=== MOS is unstable. Refer to logs."
+    exit 1
+fi

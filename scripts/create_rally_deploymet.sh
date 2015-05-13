@@ -2,4 +2,4 @@
 source openrc
 #rally-manage db recreate
 rally deployment create --filename=samples/deployments/existing.json --name=Env
-rally rally deployment check
+rally deployment check
