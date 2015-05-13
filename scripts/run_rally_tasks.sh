@@ -23,7 +23,7 @@ while [[ $n -le 3 ]]; do
     status=`cat logs/boot-runcommand-${n}.log | grep finished | wc -l`
     if [ "$status" -eq 0 ]; then
 	echo "FAILURE, please refer to logs/boot-runcommand-${n}.log"
-	#exit 1
+	exit 1
     else
 	task_id=`cat logs/boot-runcommand-${n}.log | grep finished | awk '{print $2}' | awk -F":" '{print $1}'`
 

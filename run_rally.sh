@@ -58,6 +58,9 @@ $fm_ssh "rm -f /root/rally_rsa_key.pub"
 # Run script on CTRL
 $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh boot"
 
+# Upload Test_Image_1
+$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh upload"
+
 # Obtain Rally_VM floating ip
 vm_ip=`$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh getip"`
 echo "Floating -  $vm_ip"

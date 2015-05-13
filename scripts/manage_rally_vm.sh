@@ -100,12 +100,16 @@ boot_vm
 get_vm_ip
 ;;
 
+    upload)
+upload_test_image
+;;
+
     clear)
 clear_env
 ;;
 
     *)
-echo $"Usage: $0 {boot|getip|clear}"
+echo $"Usage: $0 {boot|getip|upload|clear}"
 exit 1
 
 esac
