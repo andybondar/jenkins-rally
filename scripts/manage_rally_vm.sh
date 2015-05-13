@@ -54,7 +54,7 @@ echo $vm_ip
 }
 
 upload_test_image () {
-m=`glance image-list | grep Test_Image_1`
+m=`glance image-list | grep Test_Image_1 | wc -l`
 if [ "$m" -eq 0 ]; then
     glance image-create --name Test_Image_1 --disk-format qcow2 --container-format bare --copy-from http://37.58.123.146:8080/images/other_images/test_image_1.qcow2 --is-public True --is-protected True
     count=250
