@@ -1,12 +1,12 @@
 {
     "type": "ExistingCloud",
-    "auth_url": "http://23.246.253.34:5000/v2.0/",
+    "auth_url": "http://CONTROLLER_IP:5000/v2.0/",
     "region_name": "RegionOne",
     "endpoint_type": "public",
-    "endpoint": "http://23.246.253.34:35357/v2.0/",
+    "endpoint": "http://CONTROLLER_IP:35357/v2.0/",
     "admin": {
         "username": "admin",
-        "password": Vj6SOVDsXt,
+        "password": ADMIN_PASSWORD,
         "tenant_name": "admin"
     }
 }
