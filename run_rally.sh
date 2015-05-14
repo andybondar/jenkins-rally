@@ -2,6 +2,8 @@
 
 # Check if creds for proviant host are available
 
+source creds
+
 if [ -z "$DC_ID" ]; then
 echo "Datacenter is not defined!"
 exit 1
