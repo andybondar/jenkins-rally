@@ -9,7 +9,7 @@ n=1
 ###
 
 
-source openrc
+#source openrc
 
 #rally -v task start samples/tasks/scenarios/nova/boot-and-delete.json > logs/boot_and_delete.log
 
