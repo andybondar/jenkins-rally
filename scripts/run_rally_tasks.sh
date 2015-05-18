@@ -18,7 +18,7 @@ mkdir -p logs
 
 # TODO: run it 3 times, create 'json' report if test unsuccessfull
 while [[ $n -le 3 ]]; do
-    rally -v task start samples/tasks/scenarios/vm/boot-runcommand.json > logs/boot-runcommand-${n}.log
+    sudo rally -v task start samples/tasks/scenarios/vm/boot-runcommand.json > logs/boot-runcommand-${n}.log
 
     # Check if all operations are 100% succssfull
     # Create 'json' report if test unsuccessfull

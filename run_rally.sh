@@ -103,6 +103,8 @@ rm -f samples/deployments/tmp_existing.json
 
 # Install Rally and create deployment
 scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/get_rally.sh ubuntu@${vm_ip}:get_rally.sh
+#
+# Tempotrary commented next lines
 ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} ./get_rally.sh
 
 scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/create_rally_deploymet.sh ubuntu@${vm_ip}:create_rally_deploymet.sh
