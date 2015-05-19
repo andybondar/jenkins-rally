@@ -27,11 +27,11 @@
                 },
                 "quotas": {
                     "neutron": {
-                        "network": 10,
-                        "subnet": 10,
-                        "port": 10,
-                        "router": 10,
-                        "floatingip": 10
+                        "network": 1000,
+                        "subnet": 1000,
+                        "port": 1000,
+                        "router": 1000,
+                        "floatingip": 1000
     }
 }
             }
