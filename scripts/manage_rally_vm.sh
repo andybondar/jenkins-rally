@@ -68,9 +68,19 @@ if [ "$m" -eq 0 ]; then
 	count=$((count - 1))
 	sleep 60
     done
+else
+    echo "=== Test_Image_1 is already uploaded"
 fi
 }
 
+
+create_floating_subnet () {
+echo "=== Create fake subnet for floating IPs"
+neutron quota-update --floatingip=100000
+neutron  quota-update --network 1000 --subnet 1000 --port 1000 --router 1000
+neutron subnet-create net04_ext 101.0.0.0/16 --disable-dhcp --name rally
+neutron router-interface-add router04 rally
+}
 
 clear_env () {
 echo "Clear env"
@@ -104,12 +114,16 @@ get_vm_ip
 upload_test_image
 ;;
 
+    floating)
+create_floating_subnet
+;;
+
     clear)
 clear_env
 ;;
 
     *)
-echo $"Usage: $0 {boot|getip|upload|clear}"
+echo $"Usage: $0 {boot|getip|upload|clear|floating}"
 exit 1
 
 esac

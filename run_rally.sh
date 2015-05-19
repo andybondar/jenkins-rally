@@ -61,6 +61,9 @@ $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUs
 # Upload Test_Image_1
 $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh upload"
 
+#Create fake floating subnet
+$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh floating"
+
 # Obtain Rally_VM floating ip
 vm_ip=`$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh getip"`
 echo "Floating -  $vm_ip"
