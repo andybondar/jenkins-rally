@@ -20,8 +20,17 @@ nova keypair-add --pub-key rally_rsa_key.pub rally
 # Get net id
 NET_ID=`nova net-list | grep net04 | grep -v ext | awk '{print $2}'`
 
+# Check if image(s) siutable for Rally_VM is(are) in glance
+img_status=`glance image-list | grep  "${IMAGE}" | wc -l`
+if [ "$img_status" -eq 0 ]; then
+    echo "=== There isn't any siutable image in available"
+    exit 1
+fi
+
+IMG_ID=`glance image-list | grep  "${IMAGE}" | head -1 | awk '{print $2}'`
+
 # Boot VM
-nova boot --flavor ${FLAVOR} --image "$IMAGE" --nic net-id=${NET_ID} --security-groups default --key-name=rally Rally_VM
+nova boot --flavor ${FLAVOR} --image ${IMG_ID} --nic net-id=${NET_ID} --security-groups default --key-name=rally Rally_VM
 
 # Wait untill Rally_VM is ready
 count=250
@@ -39,6 +48,11 @@ while [[ $count -ne 0 ]] ; do
     count=$((count - 1))
     sleep 30
 done
+
+if [ "$status" != "ACTIVE" ]; then
+    echo "=== Rally_VM is not ready"
+    exit 1
+fi
 
 #Create and assign floating ip
 nova floating-ip-create net04_ext

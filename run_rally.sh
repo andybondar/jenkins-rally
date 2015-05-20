@@ -61,9 +61,6 @@ $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUs
 # Upload Test_Image_1
 $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh upload"
 
-#Create fake floating subnet
-$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh floating"
-
 # Obtain Rally_VM floating ip
 vm_ip=`$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh getip"`
 echo "Floating -  $vm_ip"
@@ -104,10 +101,31 @@ scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP
 rm -f samples/deployments/tmp_existing.json
 ##
 
+# Prepare 'boot-runcommand.json'
+cp -f samples/tasks/scenarios/vm/boot-runcommand.json samples/tasks/scenarios/vm/tmp-boot-runcommand.json
+
+if [ -z $rally_times ]; then
+    times=2
+else
+    times=$rally_times
+fi
+
+if [ -z $rally_concurrency ]; then
+    concurrency=2
+else
+    concurrency=$rally_concurrency
+fi
+
+sed -i "s/<times>/${times}/g" samples/tasks/scenarios/vm/tmp-boot-runcommand.json
+sed -i "s/<concurrency>/${concurrency}/g" samples/tasks/scenarios/vm/tmp-boot-runcommand.json
+
+scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null samples/tasks/scenarios/vm/tmp-boot-runcommand.json ubuntu@${vm_ip}:/home/ubuntu/samples/tasks/scenarios/vm/boot-runcommand.json
+rm -f samples/tasks/scenarios/vm/tmp-boot-runcommand.json
+##
+
 # Install Rally and create deployment
 scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/get_rally.sh ubuntu@${vm_ip}:get_rally.sh
 #
-# Tempotrary commented next lines
 ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} ./get_rally.sh
 
 scp -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/create_rally_deploymet.sh ubuntu@${vm_ip}:create_rally_deploymet.sh
@@ -116,6 +134,9 @@ ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP
 # Upload plugins
 ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} mkdir -p .rally/plugins
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null plugins/* ubuntu@${vm_ip}:~/.rally/plugins/
+
+#Create fake floating subnet
+$fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null $ctrl_ip /root/manage_rally_vm.sh floating"
 
 # Run Rally task(s) and analyze test results
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null scripts/run_rally_tasks.sh ubuntu@${vm_ip}:run_rally_tasks.sh
@@ -129,7 +150,7 @@ $fm_ssh "ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUs
 
 # Check logs
 
-#if [ -f logs/failure.log ]; then
-#    echo "=== MOS is unstable. Refer to logs."
-#    exit 1
-#fi
+if [ -f logs/failure.log ]; then
+    echo "=== MOS is unstable. Refer to logs."
+    exit 1
+fi
