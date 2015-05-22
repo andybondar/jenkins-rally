@@ -79,12 +79,28 @@ if [ "$m" -eq 0 ]; then
 	    echo "=== Test_Image_1 is uploaded"
 	    break
 	fi
+	if  [ "$status" = "error" ]; then
+	    echo "=== Test_Image_1 upload failed"
+	    break
+	fi
+
+	if  [ -z $status ]; then
+	    echo "=== Test_Image_1 upload failed"
+	    break
+	fi
+
 	count=$((count - 1))
 	sleep 60
     done
 else
     echo "=== Test_Image_1 is already uploaded"
 fi
+
+if  [ "$status" != "active" ]; then
+    echo "=== Test_Image_1 upload failed"
+    exit 1
+fi
+
 }
 
 
