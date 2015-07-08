@@ -2,11 +2,8 @@
 
 FLAVOR=m1.medium
 IMAGE="Ubuntu 14.04 x64 LTS"
-#NET_NAME=net04
 
 source openrc
-#nova list
-#glance image-list
 
 boot_vm () {
 # Update security group
@@ -109,7 +106,6 @@ echo "=== Create fake subnet for floating IPs"
 neutron quota-update --floatingip=100000
 neutron  quota-update --network 1000 --subnet 1000 --port 1000 --router 1000
 neutron subnet-create net04_ext 101.0.0.0/16 --disable-dhcp --name rally
-#neutron router-interface-add router04 rally
 }
 
 clear_env () {

@@ -2,8 +2,6 @@
 
 # Check if creds for proviant host are available
 
-#source creds
-
 if [ -z "$DC_ID" ]; then
 echo "Datacenter is not defined!"
 exit 1
@@ -85,7 +83,6 @@ fi
 ###
 
 # SSH to Rally_VM
-#ssh -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null ubuntu@${vm_ip} uname -a
 scp -r -i rally_rsa_key -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null samples/ ubuntu@${vm_ip}:~/
 
 # Prepare 'existing.json'
