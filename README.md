@@ -7,3 +7,4 @@
  - Feature 0.0.12 is ready
  - Feature 0.0.13 is ready
  - Feature 0.0.14 is ready
+ - Feature 0.0.15 is ready
