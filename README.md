@@ -17,3 +17,4 @@
  - Feature 0.0.22 is ready
  - Feature 0.0.23 is ready
  - Feature 0.0.24 is ready
+ - Feature 0.0.25 is ready
